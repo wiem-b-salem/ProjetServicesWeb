@@ -12,7 +12,7 @@ import { IncidentModule } from './incident/incident.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '123',
+      password: 'postgres',
       database: 'incident_db',
       entities: [Incident],
       synchronize: true,
