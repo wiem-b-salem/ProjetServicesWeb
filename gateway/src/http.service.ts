@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 export const SERVICES = {
-  auth:         'http://localhost:3001',
-  vehicle:      'http://localhost:3002',
-  traffic:      'http://localhost:3003',
-  incident:     'http://localhost:3004',
-  notification: 'http://localhost:3005',
+  auth:         process.env.AUTH_URL         || 'http://localhost:3001',
+  vehicle:      process.env.VEHICLE_URL      || 'http://localhost:3002',
+  traffic:      process.env.TRAFFIC_URL      || 'http://localhost:3003',
+  incident:     process.env.INCIDENT_URL     || 'http://localhost:3004',
+  notification: process.env.NOTIFICATION_URL || 'http://localhost:3005',
 };
 
 export async function post(url: string, data?: any) {

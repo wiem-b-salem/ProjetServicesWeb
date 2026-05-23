@@ -1,0 +1,142 @@
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: urban_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: urban_traffic_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - urban_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+    container_name: auth_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres123
+      DB_NAME: urban_traffic_db
+      JWT_SECRET: secret123
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    networks:
+      - urban_network
+
+  vehicle-service:
+    build:
+      context: ./services/vehicle-service
+    container_name: vehicle_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres123
+      DB_NAME: urban_traffic_db
+    ports:
+      - "3002:3002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - urban_network
+
+  traffic-service:
+    build:
+      context: ./services/traffic-service
+    container_name: traffic_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres123
+      DB_NAME: urban_traffic_db
+    ports:
+      - "3003:3003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - urban_network
+
+  incident-service:
+    build:
+      context: ./services/incident-service
+    container_name: incident_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres123
+      DB_NAME: urban_traffic_db
+    ports:
+      - "3004:3004"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - urban_network
+
+  notification-service:
+    build:
+      context: ./services/notification-service
+    container_name: notification_service
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres123
+      DB_NAME: urban_traffic_db
+    ports:
+      - "3005:3005"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - urban_network
+
+  gateway:
+    build:
+      context: ./gateway
+    container_name: gateway
+    environment:
+      AUTH_URL: http://auth-service:3001
+      VEHICLE_URL: http://vehicle-service:3002
+      TRAFFIC_URL: http://traffic-service:3003
+      INCIDENT_URL: http://incident-service:3004
+      NOTIFICATION_URL: http://notification-service:3005
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - vehicle-service
+      - traffic-service
+      - incident-service
+      - notification-service
+    networks:
+      - urban_network
+
+networks:
+  urban_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
