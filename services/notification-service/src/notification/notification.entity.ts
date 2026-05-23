@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-@Entity('notifications')
+@Entity('notifications', { schema: 'notification' })
 export class Notification {
   @PrimaryGeneratedColumn()
   id: number;

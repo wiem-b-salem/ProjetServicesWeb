@@ -12,7 +12,7 @@ import { NotificationModule } from './notification/notification.module';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'notification_db',
+      database: 'gesttrafic',
       entities: [Notification],
       synchronize: true,
     }),

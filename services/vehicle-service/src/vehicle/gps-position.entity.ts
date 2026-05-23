@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { Vehicle } from './vehicle.entity';
 
-@Entity('gps_positions')
+@Entity('gps_positions', { schema: 'vehicle' })
 export class GpsPosition {
   @PrimaryGeneratedColumn()
   id: number;

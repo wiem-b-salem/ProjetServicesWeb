@@ -14,7 +14,7 @@ import { VehicleModule} from './vehicle/vehicle.module';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'vehicle_db',
+      database: 'gesttrafic',
       entities: [Vehicle,GpsPosition],
       synchronize: true,
     }),

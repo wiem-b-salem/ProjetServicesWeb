@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn } from 'typeorm';
 
-@Entity('zones')
+@Entity('zones', { schema: 'traffic' })
 export class Zone {
   @PrimaryGeneratedColumn()
   id: number;
