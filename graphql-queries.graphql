@@ -1,0 +1,195 @@
+# ==================
+# AUTH
+# ==================
+
+# Register
+mutation Register {
+  register(input: { email: "admin@test.com", password: "123456", role: "ADMIN" }) {
+    message
+  }
+}
+
+# Login
+mutation Login {
+  login(input: { email: "admin@test.com", password: "123456" }) {
+    token
+  }
+}
+
+# ==================
+# VEHICLES
+# ==================
+
+# Add Vehicle
+mutation AddVehicle {
+  addVehicle(plate: "TUN-001", type: "car", owner_id: 1) {
+    id
+    plate
+    type
+  }
+}
+
+# Get All Vehicles
+query GetVehicles {
+  vehicles {
+    id
+    plate
+    type
+    owner_id
+  }
+}
+
+# Get One Vehicle
+query GetVehicle {
+  vehicle(id: 1) {
+    id
+    plate
+    type
+  }
+}
+
+# Add GPS Position
+mutation AddGps {
+  addGpsPosition(vehicle_id: 1, latitude: 36.8065, longitude: 10.1815) {
+    id
+    latitude
+    longitude
+    recorded_at
+  }
+}
+
+# Get Vehicle History
+query GetHistory {
+  vehicleHistory(vehicle_id: 1) {
+    id
+    latitude
+    longitude
+    recorded_at
+  }
+}
+
+# ==================
+# TRAFFIC
+# ==================
+
+# Create Zone
+mutation CreateZone {
+  createZone(name: "Centre Ville") {
+    id
+    name
+    level
+  }
+}
+
+# Get All Zones
+query GetZones {
+  zones {
+    id
+    name
+    density
+    level
+  }
+}
+
+# Get Congested Zones
+query GetCongestedZones {
+  congestedZones {
+    id
+    name
+    density
+    level
+  }
+}
+
+# Update Density
+mutation UpdateDensity {
+  updateDensity(id: 1, density: 55) {
+    id
+    name
+    density
+    level
+  }
+}
+
+# ==================
+# INCIDENTS
+# ==================
+
+# Create Incident
+mutation CreateIncident {
+  createIncident(
+    type: "Accident"
+    description: "Car crash on main road"
+    latitude: 36.8065
+    longitude: 10.1815
+    reported_by: 1
+  ) {
+    id
+    type
+    status
+    description
+  }
+}
+
+# Get All Incidents
+query GetIncidents {
+  incidents {
+    id
+    type
+    status
+    description
+    latitude
+    longitude
+  }
+}
+
+# Get One Incident
+query GetIncident {
+  incident(id: 1) {
+    id
+    type
+    status
+    description
+  }
+}
+
+# Update Incident Status
+mutation UpdateIncidentStatus {
+  updateIncidentStatus(id: 1, status: "En cours") {
+    id
+    type
+    status
+  }
+}
+
+# ==================
+# NOTIFICATIONS
+# ==================
+
+# Send Notification
+mutation SendNotification {
+  sendNotification(user_id: 1, message: "New incident reported near you") {
+    id
+    message
+    is_read
+  }
+}
+
+# Get User Notifications
+query GetNotifications {
+  notifications(user_id: 1) {
+    id
+    message
+    is_read
+    created_at
+  }
+}
+
+# Mark As Read
+mutation MarkAsRead {
+  markNotificationRead(id: 1) {
+    id
+    message
+    is_read
+  }
+}
