@@ -14,6 +14,7 @@ import { IncidentModule } from './incident/incident.module';
           username: process.env.DB_USERNAME || 'postgres',
           password: process.env.DB_PASSWORD || 'postgres',
           database: process.env.DB_NAME || 'urban_traffic_db',
+          schema: 'incident',
           entities: [Incident],
           synchronize: true,
         }),

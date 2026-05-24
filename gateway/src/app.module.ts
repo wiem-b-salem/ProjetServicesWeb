@@ -13,13 +13,14 @@ import { VehicleResolver } from './resolvers/vehicle.resolver';
 import { IncidentResolver } from './resolvers/incident.resolver';
 import { NotificationResolver } from './resolvers/notification.resolver';
 import { TrafficResolver } from './resolvers/traffic.resolver';
+import { join } from 'path';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
 
-      autoSchemaFile: true,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
 
       context: ({ req }) => ({ req }),
 
