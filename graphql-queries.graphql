@@ -5,6 +5,7 @@
 # Register
 mutation Register {
   register(input: { email: "admin@test.com", password: "123456", role: "ADMIN" }) {
+    token
     message
   }
 }
@@ -13,6 +14,7 @@ mutation Register {
 mutation Login {
   login(input: { email: "admin@test.com", password: "123456" }) {
     token
+    message
   }
 }
 
@@ -22,10 +24,11 @@ mutation Login {
 
 # Add Vehicle
 mutation AddVehicle {
-  addVehicle(plate: "TUN-001", type: "car", owner_id: 1) {
+  addVehicle(input: { plate: "TUN-001", type: "car", owner_id: 1 }) {
     id
     plate
     type
+    owner_id
   }
 }
 
@@ -45,15 +48,17 @@ query GetVehicle {
     id
     plate
     type
+    owner_id
   }
 }
 
 # Add GPS Position
 mutation AddGps {
-  addGpsPosition(vehicle_id: 1, latitude: 36.8065, longitude: 10.1815) {
+  addGpsPosition(vehicle_id: 1, input: { latitude: 36.8065, longitude: 10.1815 }) {
     id
     latitude
     longitude
+    vehicle_id
     recorded_at
   }
 }
@@ -64,6 +69,7 @@ query GetHistory {
     id
     latitude
     longitude
+    vehicle_id
     recorded_at
   }
 }
@@ -74,9 +80,10 @@ query GetHistory {
 
 # Create Zone
 mutation CreateZone {
-  createZone(name: "Centre Ville") {
+  createZone(input: { name: "Centre Ville" }) {
     id
     name
+    density
     level
   }
 }
@@ -103,7 +110,7 @@ query GetCongestedZones {
 
 # Update Density
 mutation UpdateDensity {
-  updateDensity(id: 1, density: 55) {
+  updateDensity(id: 1, input: { density: 55.5 }) {
     id
     name
     density
@@ -117,17 +124,13 @@ mutation UpdateDensity {
 
 # Create Incident
 mutation CreateIncident {
-  createIncident(
-    type: "Accident"
-    description: "Car crash on main road"
-    latitude: 36.8065
-    longitude: 10.1815
-    reported_by: 1
-  ) {
+  createIncident(input: { type: ACCIDENT, description: "Car crash on main road", latitude: 36.8065, longitude: 10.1815, reported_by: 1 }) {
     id
     type
     status
     description
+    latitude
+    longitude
   }
 }
 
@@ -150,15 +153,18 @@ query GetIncident {
     type
     status
     description
+    latitude
+    longitude
   }
 }
 
 # Update Incident Status
 mutation UpdateIncidentStatus {
-  updateIncidentStatus(id: 1, status: "En cours") {
+  updateIncidentStatus(id: 1, input: { status: EN_COURS }) {
     id
     type
     status
+    description
   }
 }
 
@@ -168,8 +174,9 @@ mutation UpdateIncidentStatus {
 
 # Send Notification
 mutation SendNotification {
-  sendNotification(user_id: 1, message: "New incident reported near you") {
+  sendNotification(input: { user_id: 1, message: "New incident reported near you" }) {
     id
+    user_id
     message
     is_read
   }
@@ -179,9 +186,9 @@ mutation SendNotification {
 query GetNotifications {
   notifications(user_id: 1) {
     id
+    user_id
     message
     is_read
-    created_at
   }
 }
 
@@ -189,6 +196,7 @@ query GetNotifications {
 mutation MarkAsRead {
   markNotificationRead(id: 1) {
     id
+    user_id
     message
     is_read
   }

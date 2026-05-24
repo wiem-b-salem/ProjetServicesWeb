@@ -1,13 +1,13 @@
 {
   "info": {
-    "name": "Urban Traffic Platform",
-    "description": "API collection for Urban Traffic Platform microservices",
+    "name": "Urban Traffic Platform GraphQL",
+    "description": "GraphQL API collection for Urban Traffic Platform",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
       "name": "Auth",
-      "description": "Authentication endpoints",
+      "description": "Authentication queries and mutations",
       "item": [
         {
           "name": "Register",
@@ -21,16 +21,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\"\n}"
+              "raw": "{\n  \"query\": \"mutation Register { register(input: { email: \\\"user@example.com\\\", password: \\\"password123\\\", role: \\\"OPERATOR\\" }) { token message } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/auth/register",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "auth",
-                "register"
+                "graphql"
               ]
             }
           }
@@ -47,38 +46,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"query\": \"mutation Login { login(input: { email: \\\"user@example.com\\\", password: \\\"password123\" }) { token message } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/auth/login",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "auth",
-                "login"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Validate Token",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/auth/validate",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "auth",
-                "validate"
+                "graphql"
               ]
             }
           }
@@ -87,7 +63,7 @@
     },
     {
       "name": "Vehicles",
-      "description": "Vehicle management endpoints",
+      "description": "Vehicle management queries and mutations",
       "item": [
         {
           "name": "Add Vehicle",
@@ -105,15 +81,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"licensePlate\": \"ABC123\",\n  \"type\": \"car\",\n  \"owner\": \"John Doe\",\n  \"model\": \"Toyota Camry\"\n}"
+              "raw": "{\n  \"query\": \"mutation AddVehicle { addVehicle(input: { plate: \\\"TUN-001\\\", type: \\\"car\\\", owner_id: 1 }) { id plate type owner_id } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/vehicles",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "vehicles"
+                "graphql"
               ]
             }
           }
@@ -121,42 +97,57 @@
         {
           "name": "Get All Vehicles",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
               {
                 "key": "Authorization",
                 "value": "Bearer {{token}}"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query GetVehicles { vehicles { id plate type owner_id } }\"\n}"
+            },
             "url": {
-              "raw": "{{base_url}}/vehicles",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "vehicles"
+                "graphql"
               ]
             }
           }
         },
         {
-          "name": "Get Vehicle By Id",
+          "name": "Get Vehicle By ID",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
               {
                 "key": "Authorization",
                 "value": "Bearer {{token}}"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query GetVehicle { vehicle(id: 1) { id plate type owner_id } }\"\n}"
+            },
             "url": {
-              "raw": "{{base_url}}/vehicles/{{vehicle_id}}",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "vehicles",
-                "{{vehicle_id}}"
+                "graphql"
               ]
             }
           }
@@ -177,40 +168,44 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"vehicleId\": \"{{vehicle_id}}\",\n  \"latitude\": 40.7128,\n  \"longitude\": -74.0060,\n  \"timestamp\": \"{{$timestamp}}\"\n}"
+              "raw": "{\n  \"query\": \"mutation AddGps { addGpsPosition(vehicle_id: 1, input: { latitude: 36.8065, longitude: 10.1815 }) { id latitude longitude vehicle_id recorded_at } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/vehicles/{{vehicle_id}}/gps",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "vehicles",
-                "{{vehicle_id}}",
-                "gps"
+                "graphql"
               ]
             }
           }
         },
         {
-          "name": "Get History",
+          "name": "Get Vehicle History",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
               {
                 "key": "Authorization",
                 "value": "Bearer {{token}}"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query GetHistory { vehicleHistory(vehicle_id: 1) { id latitude longitude vehicle_id recorded_at } }\"\n}"
+            },
             "url": {
-              "raw": "{{base_url}}/vehicles/{{vehicle_id}}/history",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "vehicles",
-                "{{vehicle_id}}",
-                "history"
+                "graphql"
               ]
             }
           }
@@ -219,7 +214,7 @@
     },
     {
       "name": "Traffic",
-      "description": "Traffic management endpoints",
+      "description": "Traffic management queries and mutations",
       "item": [
         {
           "name": "Create Zone",
@@ -237,16 +232,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Downtown Zone\",\n  \"latitude\": 40.7128,\n  \"longitude\": -74.0060,\n  \"radius\": 500,\n  \"capacity\": 1000\n}"
+              "raw": "{\n  \"query\": \"mutation CreateZone { createZone(input: { name: \\\"Centre Ville\" }) { id name density level } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/traffic/zones",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "traffic",
-                "zones"
+                "graphql"
               ]
             }
           }
@@ -254,29 +248,7 @@
         {
           "name": "Get All Zones",
           "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/traffic/zones",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "traffic",
-                "zones"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Update Density",
-          "request": {
-            "method": "PATCH",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
@@ -289,18 +261,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"zoneId\": \"{{zone_id}}\",\n  \"currentVehicles\": 750,\n  \"congestionLevel\": \"high\"\n}"
+              "raw": "{\n  \"query\": \"query GetZones { zones { id name density level } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/traffic/zones/{{zone_id}}/density",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "traffic",
-                "zones",
-                "{{zone_id}}",
-                "density"
+                "graphql"
               ]
             }
           }
@@ -308,22 +277,57 @@
         {
           "name": "Get Congested Zones",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
               {
                 "key": "Authorization",
                 "value": "Bearer {{token}}"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query GetCongestedZones { congestedZones { id name density level } }\"\n}"
+            },
             "url": {
-              "raw": "{{base_url}}/traffic/zones/congested",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "traffic",
-                "zones",
-                "congested"
+                "graphql"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Density",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation UpdateDensity { updateDensity(id: 1, input: { density: 55.5 }) { id name density level } }\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/graphql",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "graphql"
               ]
             }
           }
@@ -332,7 +336,7 @@
     },
     {
       "name": "Incidents",
-      "description": "Incident management endpoints",
+      "description": "Incident management queries and mutations",
       "item": [
         {
           "name": "Create Incident",
@@ -350,15 +354,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"type\": \"accident\",\n  \"location\": \"Main Street\",\n  \"latitude\": 40.7128,\n  \"longitude\": -74.0060,\n  \"description\": \"Two vehicle collision\",\n  \"severity\": \"high\"\n}"
+              "raw": "{\n  \"query\": \"mutation CreateIncident { createIncident(input: { type: ACCIDENT, description: \\\"Car crash on main road\\\", latitude: 36.8065, longitude: 10.1815, reported_by: 1 }) { id type status description latitude longitude } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/incidents",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "incidents"
+                "graphql"
               ]
             }
           }
@@ -366,50 +370,7 @@
         {
           "name": "Get All Incidents",
           "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/incidents",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "incidents"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Incident By Id",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/incidents/{{incident_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "incidents",
-                "{{incident_id}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Update Status",
-          "request": {
-            "method": "PATCH",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
@@ -422,17 +383,73 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"status\": \"resolved\",\n  \"notes\": \"Incident has been resolved\"\n}"
+              "raw": "{\n  \"query\": \"query GetIncidents { incidents { id type status description latitude longitude } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/incidents/{{incident_id}}/status",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "incidents",
-                "{{incident_id}}",
-                "status"
+                "graphql"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Incident By ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query GetIncident { incident(id: 1) { id type status description latitude longitude } }\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/graphql",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "graphql"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Incident Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation UpdateIncidentStatus { updateIncidentStatus(id: 1, input: { status: EN_COURS }) { id type status description } }\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/graphql",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "graphql"
               ]
             }
           }
@@ -441,7 +458,7 @@
     },
     {
       "name": "Notifications",
-      "description": "Notification endpoints",
+      "description": "Notification queries and mutations",
       "item": [
         {
           "name": "Send Notification",
@@ -459,15 +476,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"title\": \"Traffic Alert\",\n  \"message\": \"High congestion detected in downtown area\",\n  \"type\": \"alert\"\n}"
+              "raw": "{\n  \"query\": \"mutation SendNotification { sendNotification(input: { user_id: 1, message: \\\"New incident reported near you\" }) { id user_id message is_read } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/notifications",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "notifications"
+                "graphql"
               ]
             }
           }
@@ -475,30 +492,7 @@
         {
           "name": "Get User Notifications",
           "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/notifications/user/{{user_id}}",
-              "host": [
-                "{{base_url}}"
-              ],
-              "path": [
-                "notifications",
-                "user",
-                "{{user_id}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Mark As Read",
-          "request": {
-            "method": "PATCH",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
@@ -511,17 +505,44 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"notificationId\": \"{{notification_id}}\"\n}"
+              "raw": "{\n  \"query\": \"query GetNotifications { notifications(user_id: 1) { id user_id message is_read } }\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/notifications/{{notification_id}}/read",
+              "raw": "{{base_url}}/graphql",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "notifications",
-                "{{notification_id}}",
-                "read"
+                "graphql"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark Notification As Read",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"mutation MarkAsRead { markNotificationRead(id: 1) { id user_id message is_read } }\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/graphql",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "graphql"
               ]
             }
           }
@@ -537,31 +558,6 @@
     },
     {
       "key": "token",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "vehicle_id",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "zone_id",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "incident_id",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "notification_id",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "user_id",
       "value": "",
       "type": "string"
     }
