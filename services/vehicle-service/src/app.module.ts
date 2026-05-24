@@ -5,10 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Vehicle } from './vehicle/vehicle.entity';
 import { GpsPosition } from './vehicle/gps-position.entity';
 import { VehicleModule} from './vehicle/vehicle.module';
+import { ConfigModule } from '@nestjs/config';
+
 
 @Module({
   
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',

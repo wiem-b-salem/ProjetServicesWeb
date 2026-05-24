@@ -1,0 +1,171 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthResponse {
+  token: String
+  message: String
+}
+
+type Vehicle {
+  id: Int!
+  plate: String!
+  type: String!
+  owner_id: Int!
+}
+
+type GpsPosition {
+  id: Int!
+  latitude: Float!
+  longitude: Float!
+  vehicle_id: Int!
+  recorded_at: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Incident {
+  id: Int!
+  type: IncidentType!
+  status: IncidentStatus!
+  description: String!
+  latitude: Float!
+  longitude: Float!
+}
+
+"""Type of incident"""
+enum IncidentType {
+  ACCIDENT
+  TRAVAUX
+  ROUTE_FERMEE
+  EMBOUTEILLAGE
+}
+
+"""Status of incident"""
+enum IncidentStatus {
+  SIGNALE
+  EN_COURS
+  RESOLU
+}
+
+type Notification {
+  id: Int!
+  user_id: Int!
+  message: String!
+  is_read: Boolean!
+}
+
+type Zone {
+  id: Int!
+  name: String!
+  density: Float!
+  level: String!
+}
+
+type Query {
+  """Get all vehicles"""
+  vehicles: [Vehicle!]!
+
+  """Get vehicle by ID"""
+  vehicle(id: Int!): Vehicle!
+
+  """Get vehicle movement history"""
+  vehicleHistory(vehicle_id: Int!): [GpsPosition!]!
+
+  """Get all zones"""
+  zones: [Zone!]!
+
+  """Get congested zones"""
+  congestedZones: [Zone!]!
+
+  """Get all incidents"""
+  incidents: [Incident!]!
+
+  """Get incident by ID"""
+  incident(id: Int!): Incident!
+
+  """Get notifications for a user"""
+  notifications(user_id: Int!): [Notification!]!
+}
+
+type Mutation {
+  """Register a new user"""
+  register(input: RegisterInput!): AuthResponse!
+
+  """Login and get JWT token"""
+  login(input: LoginInput!): AuthResponse!
+
+  """Add a new vehicle"""
+  addVehicle(input: CreateVehicleInput!): Vehicle!
+
+  """Add GPS position to vehicle"""
+  addGpsPosition(vehicle_id: Int!, input: CreateGpsInput!): GpsPosition!
+
+  """Create a new zone"""
+  createZone(input: CreateZoneInput!): Zone!
+
+  """Update zone traffic density"""
+  updateDensity(id: Int!, input: UpdateDensityInput!): Zone!
+
+  """Create a new incident"""
+  createIncident(input: CreateIncidentInput!): Incident!
+
+  """Update incident status"""
+  updateIncidentStatus(id: Int!, input: UpdateStatusInput!): Incident!
+
+  """Send a notification"""
+  sendNotification(input: CreateNotificationInput!): Notification!
+
+  """Mark notification as read"""
+  markNotificationRead(id: Int!): Notification!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  role: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input CreateVehicleInput {
+  plate: String!
+  type: String!
+  owner_id: Int!
+}
+
+input CreateGpsInput {
+  latitude: Float!
+  longitude: Float!
+}
+
+input CreateZoneInput {
+  name: String!
+}
+
+input UpdateDensityInput {
+  density: Float!
+}
+
+input CreateIncidentInput {
+  type: IncidentType!
+  description: String!
+  latitude: Float!
+  longitude: Float!
+  reported_by: Int
+}
+
+input UpdateStatusInput {
+  status: IncidentStatus!
+}
+
+input CreateNotificationInput {
+  user_id: Int!
+  message: String!
+}

@@ -1,37 +1,29 @@
-import { Resolver, Query, Mutation, Args, Int, Float } from '@nestjs/graphql';
-import { Incident } from '../types/incident.types';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Incident, CreateIncidentInput, UpdateStatusInput } from '../types/incident.types';
 import { get, post, patch, SERVICES } from '../http.service';
 
 @Resolver()
 export class IncidentResolver {
-  @Query(() => [Incident])
+  @Query(() => [Incident], { description: 'Get all incidents' })
   async incidents() {
     return get(`${SERVICES.incident}/incidents`);
   }
 
-  @Query(() => Incident)
+  @Query(() => Incident, { description: 'Get incident by ID' })
   async incident(@Args('id', { type: () => Int }) id: number) {
     return get(`${SERVICES.incident}/incidents/${id}`);
   }
 
-  @Mutation(() => Incident)
-  async createIncident(
-    @Args('type') type: string,
-    @Args('description') description: string,
-    @Args('latitude', { type: () => Float }) latitude: number,
-    @Args('longitude', { type: () => Float }) longitude: number,
-    @Args('reported_by', { type: () => Int, nullable: true }) reported_by?: number,
-  ) {
-    return post(`${SERVICES.incident}/incidents`, {
-      type, description, latitude, longitude, reported_by,
-    });
+  @Mutation(() => Incident, { description: 'Create a new incident' })
+  async createIncident(@Args('input') input: CreateIncidentInput) {
+    return post(`${SERVICES.incident}/incidents`, input);
   }
 
-  @Mutation(() => Incident)
+  @Mutation(() => Incident, { description: 'Update incident status' })
   async updateIncidentStatus(
     @Args('id', { type: () => Int }) id: number,
-    @Args('status') status: string,
+    @Args('input') input: UpdateStatusInput,
   ) {
-    return patch(`${SERVICES.incident}/incidents/${id}/status`, { status });
+    return patch(`${SERVICES.incident}/incidents/${id}/status`, input);
   }
 }

@@ -14,9 +14,11 @@ import { IncidentResolver } from './resolvers/incident.resolver';
 import { NotificationResolver } from './resolvers/notification.resolver';
 import { TrafficResolver } from './resolvers/traffic.resolver';
 import { join } from 'path';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
 

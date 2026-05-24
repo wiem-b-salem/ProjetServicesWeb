@@ -1,29 +1,29 @@
-import { Resolver, Query, Mutation, Args, Int, Float } from '@nestjs/graphql';
-import { Zone } from '../types/traffic.types';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Zone, CreateZoneInput, UpdateDensityInput } from '../types/traffic.types';
 import { get, post, patch, SERVICES } from '../http.service';
 
 @Resolver()
 export class TrafficResolver {
-  @Query(() => [Zone])
+  @Query(() => [Zone], { description: 'Get all zones' })
   async zones() {
     return get(`${SERVICES.traffic}/zones`);
   }
 
-  @Query(() => [Zone])
+  @Query(() => [Zone], { description: 'Get congested zones' })
   async congestedZones() {
     return get(`${SERVICES.traffic}/zones/congested`);
   }
 
-  @Mutation(() => Zone)
-  async createZone(@Args('name') name: string) {
-    return post(`${SERVICES.traffic}/zones`, { name });
+  @Mutation(() => Zone, { description: 'Create a new zone' })
+  async createZone(@Args('input') input: CreateZoneInput) {
+    return post(`${SERVICES.traffic}/zones`, input);
   }
 
-  @Mutation(() => Zone)
+  @Mutation(() => Zone, { description: 'Update zone traffic density' })
   async updateDensity(
     @Args('id', { type: () => Int }) id: number,
-    @Args('density', { type: () => Float }) density: number,
+    @Args('input') input: UpdateDensityInput,
   ) {
-    return patch(`${SERVICES.traffic}/zones/${id}/density`, { density });
+    return patch(`${SERVICES.traffic}/zones/${id}/density`, input);
   }
 }
