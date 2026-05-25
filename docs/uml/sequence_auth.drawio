@@ -1,0 +1,197 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.16 Chrome/132.0.6834.196 Electron/34.2.0 Safari/537.36" version="26.0.16">
+  <diagram id="XlvtcOZLmh8wnz8_LBLD" name="Page-1">
+    <mxGraphModel dx="1276" dy="606" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="actor_front" value="Frontend&#xa;" style="rounded=1;whiteSpace=wrap;fillColor=#EBF5FB;strokeColor=#2980B9;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="270" y="88" width="120" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="life_front" value="" style="endArrow=none;dashed=1;strokeColor=#2980B9;strokeWidth=2;" parent="1" source="actor_front" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="actor_gw" value="GraphQL Gateway&#xa;" style="rounded=1;whiteSpace=wrap;fillColor=#EBF5FB;strokeColor=#2980B9;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="490" y="88" width="140" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="life_gw" value="" style="endArrow=none;dashed=1;strokeColor=#2980B9;strokeWidth=2;" parent="1" source="actor_gw" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="actor_auth" value="Auth Service&#xa;" style="rounded=1;whiteSpace=wrap;fillColor=#EBF5FB;strokeColor=#2980B9;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="720" y="88" width="140" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="life_auth" value="" style="endArrow=none;dashed=1;strokeColor=#2980B9;strokeWidth=2;" parent="1" source="actor_auth" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="actor_db" value="PostgreSQL&#xa;(auth schema)" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;fillColor=#FEF9E7;strokeColor=#F39C12;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="960" y="78" width="100" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="life_db" value="" style="endArrow=none;dashed=1;strokeColor=#F39C12;strokeWidth=2;" parent="1" source="actor_db" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="1100" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="box_inscription" value="Inscription" style="swimlane;startSize=25;fillColor=#D5F5E3;strokeColor=#27AE60;fontStyle=1;fontSize=13;" parent="1" vertex="1">
+          <mxGeometry x="50" y="175" width="1100" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="Remplir formulaire inscription" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=1;exitY=0.5;strokeColor=#2C3E50;strokeWidth=2;endArrow=open;endFill=1;" parent="box_inscription" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="45" as="sourcePoint" />
+            <mxPoint x="270" y="45" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" value="mutation register(name, email, password, role)" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2980B9;strokeWidth=2;endArrow=open;endFill=1;" parent="box_inscription" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="75" as="sourcePoint" />
+            <mxPoint x="440" y="75" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" value="POST /auth/register" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2980B9;strokeWidth=2;endArrow=open;endFill=1;" parent="box_inscription" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="105" as="sourcePoint" />
+            <mxPoint x="710" y="105" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" value="Valider données + Hasher mot de passe (bcrypt)" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#8E44AD;strokeWidth=1;dashed=1;endArrow=open;endFill=0;" parent="box_inscription" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="670" y="130" as="sourcePoint" />
+            <mxPoint x="790" y="130" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="790" y="130" />
+              <mxPoint x="790" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" value="INSERT INTO auth.users" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E67E22;strokeWidth=2;endArrow=open;endFill=1;" parent="box_inscription" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="155" as="sourcePoint" />
+            <mxPoint x="960" y="155" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" value="user créé" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E67E22;strokeWidth=1;dashed=1;endArrow=open;endFill=1;" parent="box_inscription" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="960" y="175" as="sourcePoint" />
+            <mxPoint x="710" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" value="&amp;nbsp;Compte créé avec succès" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#27AE60;strokeWidth=1;dashed=1;endArrow=open;endFill=1;" parent="box_inscription" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="195" as="sourcePoint" />
+            <mxPoint x="60" y="195" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ELFWApttfGGrgjD5I7Kb-5" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="box_inscription">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="545" as="sourcePoint" />
+            <mxPoint x="270" y="-15" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ELFWApttfGGrgjD5I7Kb-6" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="box_inscription">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="545" as="sourcePoint" />
+            <mxPoint x="470" y="-15" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ELFWApttfGGrgjD5I7Kb-7" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="box_inscription">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="545" as="sourcePoint" />
+            <mxPoint x="710" y="-15" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ELFWApttfGGrgjD5I7Kb-8" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="box_inscription">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="960" y="545" as="sourcePoint" />
+            <mxPoint x="960" y="-25" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="box_connexion" value="Connexion" style="swimlane;startSize=25;fillColor=#EBF5FB;strokeColor=#2980B9;fontStyle=1;fontSize=13;" parent="1" vertex="1">
+          <mxGeometry x="50" y="400" width="1100" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="m8" value="Entrer email + mot de passe" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2C3E50;strokeWidth=2;endArrow=open;endFill=1;" parent="box_connexion" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="40" as="sourcePoint" />
+            <mxPoint x="270" y="40" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" value="mutation login(email, password)" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2980B9;strokeWidth=2;endArrow=open;endFill=1;" parent="box_connexion" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="65" as="sourcePoint" />
+            <mxPoint x="470" y="65" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" value="POST /auth/login" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#2980B9;strokeWidth=2;endArrow=open;endFill=1;" parent="box_connexion" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="90" as="sourcePoint" />
+            <mxPoint x="710" y="90" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="540" y="90" />
+              <mxPoint x="540" y="90" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" value="SELECT user WHERE email = ?" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E67E22;strokeWidth=2;endArrow=open;endFill=1;" parent="box_connexion" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="115" as="sourcePoint" />
+            <mxPoint x="960" y="115" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m12" value="user trouvé" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E67E22;strokeWidth=1;dashed=1;endArrow=open;endFill=1;" parent="box_connexion" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="960" y="135" as="sourcePoint" />
+            <mxPoint x="710" y="135" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="alt_box" value="" style="swimlane;startSize=0;fillColor=#FFF9C4;strokeColor=#F1C40F;strokeWidth=2;" parent="box_connexion" vertex="1">
+          <mxGeometry x="180" y="150" width="820" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_label1" value="[Mot de passe correct]" style="text;html=1;fillColor=none;strokeColor=none;fontStyle=2;fontColor=#27AE60;fontSize=11;" parent="box_connexion" vertex="1">
+          <mxGeometry x="185" y="152" width="180" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_label2" value="[Mot de passe incorrect]" style="text;html=1;fillColor=none;strokeColor=none;fontStyle=2;fontColor=#E74C3C;fontSize=11;" parent="box_connexion" vertex="1">
+          <mxGeometry x="185" y="205" width="190" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="alt_div" value="" style="endArrow=none;strokeColor=#F1C40F;strokeWidth=1;dashed=1;" parent="box_connexion" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="180" y="200" as="sourcePoint" />
+            <mxPoint x="1000" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13ok" value="Générer JWT + { token, user }" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#27AE60;strokeWidth=2;endArrow=open;endFill=1;" parent="box_connexion" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="175" as="sourcePoint" />
+            <mxPoint x="220" y="175" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13ko" value="&amp;nbsp;UnauthorizedException" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#E74C3C;strokeWidth=2;dashed=1;endArrow=open;endFill=1;" parent="box_connexion" edge="1">
+          <mxGeometry x="-0.0164" y="-10" relative="1" as="geometry">
+            <mxPoint x="710" y="220" as="sourcePoint" />
+            <mxPoint x="60" y="220" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ELFWApttfGGrgjD5I7Kb-1" value="utilisateur" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="90" y="85" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ELFWApttfGGrgjD5I7Kb-4" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="100" y="720" as="sourcePoint" />
+            <mxPoint x="100" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
