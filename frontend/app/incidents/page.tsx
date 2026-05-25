@@ -25,6 +25,15 @@ export default function IncidentsPage() {
     longitude: '',
   });
 
+  // this gets called when user clicks the map
+  const handleMapClick = (lat: number, lng: number) => {
+    setForm(prev => ({
+      ...prev,
+      latitude: lat.toFixed(6),
+      longitude: lng.toFixed(6),
+    }));
+  };
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -64,7 +73,7 @@ export default function IncidentsPage() {
         <h1 className="text-white text-2xl font-bold mb-6">Incidents</h1>
 
         {/* Create Form */}
-        <div className="bg-gray-900 rounded-xl p-6 mb-6">
+        <div className="bg-gray-900 rounded-xl p-6 mb-4">
           <h2 className="text-white font-semibold mb-4">Declare Incident</h2>
           <form onSubmit={handleCreate} className="flex gap-3 flex-wrap">
             <select
@@ -88,14 +97,14 @@ export default function IncidentsPage() {
               placeholder="Latitude"
               value={form.latitude}
               onChange={e => setForm({ ...form, latitude: e.target.value })}
-              className="bg-gray-800 text-white px-4 py-2 rounded w-32"
+              className="bg-gray-800 text-white px-4 py-2 rounded w-36"
               required
             />
             <input
               placeholder="Longitude"
               value={form.longitude}
               onChange={e => setForm({ ...form, longitude: e.target.value })}
-              className="bg-gray-800 text-white px-4 py-2 rounded w-32"
+              className="bg-gray-800 text-white px-4 py-2 rounded w-36"
               required
             />
             <button
@@ -105,11 +114,35 @@ export default function IncidentsPage() {
               Declare
             </button>
           </form>
+          {/* hint text */}
+          {!form.latitude && (
+            <p className="text-gray-500 text-xs mt-2">
+              💡 Click anywhere on the map to auto-fill coordinates
+            </p>
+          )}
+          {form.latitude && (
+            <p className="text-green-500 text-xs mt-2">
+              📍 Position selected: {form.latitude}, {form.longitude}
+            </p>
+          )}
         </div>
 
-        {/* Map */}
+        {/* Map with click handler */}
         <div className="mb-6">
-          <Map markers={mapMarkers} />
+          <Map
+            markers={mapMarkers}
+            onMapClick={handleMapClick}
+            clickMarker={
+              form.latitude && form.longitude
+                ? {
+                    id: -1,
+                    latitude: parseFloat(form.latitude),
+                    longitude: parseFloat(form.longitude),
+                    label: '📍 New incident here',
+                  }
+                : null
+            }
+          />
         </div>
 
         {/* Incidents List */}

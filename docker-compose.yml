@@ -134,6 +134,19 @@ services:
     networks:
       - urban_network
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    environment:
+      NEXT_PUBLIC_GRAPHQL_URL: http://localhost:3000/graphql
+    ports:
+      - "3006:3006"
+    depends_on:
+      - gateway
+    networks:
+      - urban_network
+
 networks:
   urban_network:
     driver: bridge

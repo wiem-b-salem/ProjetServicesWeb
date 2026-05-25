@@ -16,7 +16,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gray-900 text-white px-6 py-4 flex items-center justify-between">
-      <div className="font-bold text-lg">🚦 Urban Traffic</div>
+      <div className="font-bold text-lg"> Urban Traffic Manager</div>
       <div className="flex gap-6 text-sm">
         <Link href="/dashboard" className="hover:text-yellow-400">Dashboard</Link>
         <Link href="/vehicles" className="hover:text-yellow-400">Vehicles</Link>

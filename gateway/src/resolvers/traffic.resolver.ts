@@ -1,25 +1,32 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { Zone, CreateZoneInput, UpdateDensityInput } from '../types/traffic.types';
 import { get, post, patch, SERVICES } from '../http.service';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Resolver()
 export class TrafficResolver {
-  @Query(() => [Zone], { description: 'Get all zones' })
+  // public
+  @Query(() => [Zone])
   async zones() {
     return get(`${SERVICES.traffic}/zones`);
   }
 
-  @Query(() => [Zone], { description: 'Get congested zones' })
+  // public
+  @Query(() => [Zone])
   async congestedZones() {
     return get(`${SERVICES.traffic}/zones/congested`);
   }
 
-  @Mutation(() => Zone, { description: 'Create a new zone' })
+  // ADMIN only
+  @Roles('ADMIN')
+  @Mutation(() => Zone)
   async createZone(@Args('input') input: CreateZoneInput) {
     return post(`${SERVICES.traffic}/zones`, input);
   }
 
-  @Mutation(() => Zone, { description: 'Update zone traffic density' })
+  // ADMIN only
+  @Roles('ADMIN')
+  @Mutation(() => Zone)
   async updateDensity(
     @Args('id', { type: () => Int }) id: number,
     @Args('input') input: UpdateDensityInput,

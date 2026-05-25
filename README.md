@@ -211,3 +211,18 @@ npm start
 - Database connection errors: Verify init.sql has been executed
 - Port conflicts: Adjust port mappings in docker-compose.yml
 
+## ROLES
+
+ADMIN ONLY:
+    -create zone, update density
+    -send notification
+
+ADMIN OR OP:
+    -view / mark notifications
+    -declare incident, update status
+    -add vehicle, GPS
+
+PUBLIC:
+    -view vehicles, incidents, zones
+    -register / login
+
