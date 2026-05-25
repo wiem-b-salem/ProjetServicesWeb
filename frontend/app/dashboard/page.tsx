@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { Car, TriangleAlert, Map, TrafficCone } from 'lucide-react';
 
 export default function DashboardPage() {
   const { token } = useAuth();
@@ -19,16 +20,32 @@ export default function DashboardPage() {
   const { data: zoneData } = useQuery(GET_ZONES);
 
   const cards = [
-    { label: 'Vehicles', value: vehicleData?.vehicles?.length || 0, color: 'bg-blue-600', icon: '🚗' },
-    { label: 'Incidents', value: incidentData?.incidents?.length || 0, color: 'bg-red-600', icon: '⚠️' },
-    { label: 'Zones', value: zoneData?.zones?.length || 0, color: 'bg-green-600', icon: '🗺️' },
-    {
-      label: 'Congested',
-      value: zoneData?.zones?.filter((z: any) => z.level === 'Élevé').length || 0,
-      color: 'bg-orange-600',
-      icon: '🔴',
-    },
-  ];
+  {
+    label: 'Vehicles',
+    value: vehicleData?.vehicles?.length || 0,
+    color: 'bg-blue-600',
+    icon: Car,
+  },
+  {
+    label: 'Incidents',
+    value: incidentData?.incidents?.length || 0,
+    color: 'bg-red-600',
+    icon: TriangleAlert,
+  },
+  {
+    label: 'Zones',
+    value: zoneData?.zones?.length || 0,
+    color: 'bg-green-600',
+    icon: Map,
+  },
+  {
+    label: 'Congested',
+    value:
+      zoneData?.zones?.filter((z: any) => z.level === 'Élevé').length || 0,
+    color: 'bg-orange-600',
+    icon: TrafficCone,
+  },
+];
 
   return (
     <div className="min-h-screen bg-gray-950">
@@ -36,13 +53,26 @@ export default function DashboardPage() {
       <div className="p-6">
         <h1 className="text-white text-2xl font-bold mb-6">Dashboard</h1>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {cards.map(card => (
-            <div key={card.label} className={`${card.color} rounded-xl p-6 text-white`}>
-              <div className="text-3xl mb-2">{card.icon}</div>
-              <div className="text-3xl font-bold">{card.value}</div>
-              <div className="text-sm opacity-80">{card.label}</div>
-            </div>
-          ))}
+          {cards.map(card => {
+            const Icon = card.icon;
+
+            return (
+              <div
+                key={card.label}
+                className={`${card.color} rounded-xl p-6 text-white`}
+              >
+              <Icon className="w-8 h-8 mb-2" />
+
+              <div className="text-3xl font-bold">
+                {card.value}
+              </div>
+
+              <div className="text-sm opacity-80">
+                {card.label}
+              </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

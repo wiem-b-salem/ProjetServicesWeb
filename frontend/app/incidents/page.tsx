@@ -117,12 +117,12 @@ export default function IncidentsPage() {
           {/* hint text */}
           {!form.latitude && (
             <p className="text-gray-500 text-xs mt-2">
-              💡 Click anywhere on the map to auto-fill coordinates
+              Click anywhere on the map to auto-fill coordinates
             </p>
           )}
           {form.latitude && (
             <p className="text-green-500 text-xs mt-2">
-              📍 Position selected: {form.latitude}, {form.longitude}
+              Position selected: {form.latitude}, {form.longitude}
             </p>
           )}
         </div>
@@ -138,7 +138,7 @@ export default function IncidentsPage() {
                     id: -1,
                     latitude: parseFloat(form.latitude),
                     longitude: parseFloat(form.longitude),
-                    label: '📍 New incident here',
+                    label: ' New incident here',
                   }
                 : null
             }
